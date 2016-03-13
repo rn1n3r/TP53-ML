@@ -92,7 +92,7 @@ def clfTestProb(data, top, morph, runs):
         strTop.append( '{:.2f}'.format(max(prob)) + " " + str(top_class[i]))
     for prob in clf_predict_morph:
         i = prob.tolist().index(max(prob))
-        strMorph.append( '{:20.2f}'.format(max(prob)) + " " + str(morph_class[i]))
+        strMorph.append( '{:.2f}'.format(max(prob)) + " " + str(morph_class[i]))
         
     for i,x in enumerate(strTop):
         print(x + " " + strMorph[i])
@@ -149,7 +149,7 @@ def main():
 #        reader = csv.reader(f, delimiter = ",")
 #        all = [item[1] for item in list(reader)]
     
-    data, top, morph= getData('C:\\Users\\Edward\\Documents\\Files\\hack\\biohacks\\germlineData.txt', 'germ')
+    data, top, morph= getData('germlineData.txt', 'germ')
     
     
     #svmTest(data, top, 'BREAST')
