@@ -85,49 +85,48 @@ def clfTestProb(data, top, runs):
         print(str(max(prob)) + " " + str(clf.classes_[i]))
 
  
+def main():
+    with open('C:\\Users\\Edward\\Documents\\Files\\hack\\biohacks\\topo.csv') as f:
+        reader = csv.reader(f, delimiter = ",")
+        all = [item[1] for item in list(reader)]
+    
+
+    with open('C:\\Users\\Edward\\Documents\\Files\\hack\\biohacks\\germlineData.txt') as f:
+        next(f) # skip headers
+    
+        reader = csv.reader(f, delimiter="\t")
+        data = list(reader)
+        
+        # data fields    
+        id = [item[0] for item in data]
+        #type= [hash(item[7]) for item in data] # for somatic
+    #    prot = [item[30] for item in data]
+    #    loc = [item[2] for item in data]
+    #    sex = [item[45] for item in data]
+        typeUnhash = [item[15] for item in data]
+        type= [hash(item[15]) for item in data]
+        top = [item[39] for item in data]
+        loc = [item[10] for item in data]
+        sex = [item[32] for item in data]
+    # mapping the types
+    for i,x in enumerate(sex):
+        if (x == 'M'):
+            sex[i] = 0
+        else:
+            sex[i] = 1
+        
+    
+    
+    
+    # combine data fields
+    data = [list(a) for a in zip(type, loc, sex)]
+    
+    clfTest(data, top, 100, 'Sarcoma, NOS')
+    
+    clfTestProb(data, top, 1)
+    
+main()
+    
     
 
     
-
-    
-    
-
-    
-with open('C:\\Users\\Edward\\Documents\\Files\\hack\\biohacks\\topo.csv') as f:
-    reader = csv.reader(f, delimiter = ",")
-    all = [item[1] for item in list(reader)]
-    
-
-with open('C:\\Users\\Edward\\Documents\\Files\\hack\\biohacks\\germlineData.txt') as f:
-    next(f) # skip headers
-
-    reader = csv.reader(f, delimiter="\t")
-    data = list(reader)
-    
-    # data fields    
-    id = [item[0] for item in data]
-    #type= [hash(item[7]) for item in data] # for somatic
-#    prot = [item[30] for item in data]
-#    loc = [item[2] for item in data]
-#    sex = [item[45] for item in data]
-    typeUnhash = [item[15] for item in data]
-    type= [hash(item[15]) for item in data]
-    top = [item[39] for item in data]
-    loc = [item[10] for item in data]
-    sex = [item[32] for item in data]
-# mapping the types
-for i,x in enumerate(sex):
-    if (x == 'M'):
-        sex[i] = 0
-    else:
-        sex[i] = 1
-    
-
-
-
-# combine data fields
-data = [list(a) for a in zip(type, loc, sex)]
-
-clfTest(data, top, 100, 'Sarcoma, NOS')
-
-clfTestProb(data, top, 1)
