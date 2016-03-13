@@ -66,6 +66,28 @@ def clfTest(data, top, runs, organ):
     avgPredict = avgPredict / runs
     print("Percentage Verification " + organ + ": ", avgVer)
     print("Percentage Prediction: ", avgPredict)
+    
+def clfTestProb(data, top, runs):
+    isOrgan = []
+   
+    
+    avgPredict = 0
+    for i in range (0,runs):
+    # take a sample for training, leave the rest for testing (cross-validation)
+        data_train, data_test, top_train, top_test = train_test_split(data,top)
+        clf = RandomForestClassifier(n_estimators=10)
+       
+        clf = clf.fit(data_train, top_train)
+        clf_predict = clf.predict_proba(data_test)
+    
+    for prob in clf_predict:
+        i = prob.tolist().index(max(prob))
+        print(str(max(prob)) + " " + str(clf.classes_[i]))
+
+ 
+    
+
+    
 
     
     
@@ -90,7 +112,7 @@ with open('C:\\Users\\Edward\\Documents\\Files\\hack\\biohacks\\germlineData.txt
 #    sex = [item[45] for item in data]
     typeUnhash = [item[15] for item in data]
     type= [hash(item[15]) for item in data]
-    top = [item[41] for item in data]
+    top = [item[39] for item in data]
     loc = [item[10] for item in data]
     sex = [item[32] for item in data]
 # mapping the types
@@ -108,3 +130,4 @@ data = [list(a) for a in zip(type, loc, sex)]
 
 clfTest(data, top, 100, 'Sarcoma, NOS')
 
+clfTestProb(data, top, 1)
